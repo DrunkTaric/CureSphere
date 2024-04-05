@@ -1,23 +1,23 @@
 import express from "express";
-import compression from "compression";  // compresses requests
-import bodyParser from "body-parser";
-import path from "path";
+import logger from "morgan";
+import * as path from "path";
 
-import * as homeController from "./controllers/home";
+import { errorHandler, errorNotFoundHandler } from "./middlewares/errorHandler";
 
-const app = express();
+// Routes
+import { index } from "./routes/index";
+// Create Express server
+export const app = express();
 
+// Express configuration
 app.set("port", process.env.PORT || 3002);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
-app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-  express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
-);
+app.use(logger("dev"));
 
-app.get("/", homeController.index);
+app.use(express.static(path.join(__dirname, "../public")));
+app.use("/", index);
 
-export default app;
+app.use(errorNotFoundHandler);
+app.use(errorHandler);
