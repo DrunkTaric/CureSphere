@@ -3,7 +3,7 @@ import './index.css';
 import { render } from 'solid-js/web';
 import { Route, Router } from "@solidjs/router";
 
-import Lebron from './lebron';
+import about from './about';
 
 const root = document.getElementById('root');
 
@@ -15,6 +15,6 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 
 render(
   () => <Router>
-    <Route path="/lebron" component={Lebron} />
+    <Route path="/about" component={about} />
   </Router>
 , root!);
