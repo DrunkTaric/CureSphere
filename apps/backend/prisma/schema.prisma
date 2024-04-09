@@ -1,0 +1,278 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the User model
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  passwordHash  String
+  salt          String
+  firstName     String
+  lastName      String
+  dateOfBirth   DateTime
+  gender        String
+  contactNumber String
+  userType      String // You might want to use an enum for UserType
+  Doctor        Doctor[]
+  Nurse         Nurse[]
+  Patient       Patient[]
+  Employee      Employee[]
+  Logs          Logs[]
+  ForumPosts    ForumPosts[]
+  ForumReplies  ForumReplies[]
+  ChatMessage   ChatMessage[]
+}
+
+// Define the Doctor model
+model Doctor {
+  id             Int             @id @default(autoincrement())
+  user           User            @relation(fields: [userId], references: [id])
+  userId         Int
+  specialization String
+  department     Department      @relation(fields: [departmentId], references: [id])
+  departmentId   Int
+  workDate       DateTime
+  startTime      DateTime
+  endTime        DateTime
+  Appointment    Appointment[]
+  MedicalRecord  MedicalRecord[]
+  Surgery        Surgery[]
+}
+
+// Define the Nurse model
+model Nurse {
+  id            Int             @id @default(autoincrement())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        Int
+  department    Department      @relation(fields: [departmentId], references: [id])
+  departmentId  Int
+  workDate      DateTime
+  startTime     DateTime
+  endTime       DateTime
+  MedicalRecord MedicalRecord[]
+}
+
+// Define the Patient model
+model Patient {
+  id             Int              @id @default(autoincrement())
+  user           User             @relation(fields: [userId], references: [id])
+  userId         Int
+  address        String
+  isResident     Boolean
+  room           Room?            @relation(fields: [roomId], references: [id])
+  roomId         Int?
+  bed            Bed?             @relation(fields: [bedId], references: [id])
+  bedId          Int?
+  Appointment    Appointment[]
+  MedicalRecord  MedicalRecord[]
+  Invoice        Invoice[]
+  LabTest        LabTest[]
+  Surgery        Surgery[]
+  EmergencyVisit EmergencyVisit[]
+}
+
+// Define the Employee model
+model Employee {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  jobTitle     String
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  workDate     DateTime
+  startTime    DateTime
+  endTime      DateTime
+}
+
+// Define the Appointment model
+model Appointment {
+  id                  Int      @id @default(autoincrement())
+  patient             Patient  @relation(fields: [patientId], references: [id])
+  patientId           Int
+  doctor              Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId            Int
+  appointmentDateTime DateTime
+  appointmentType     String
+  notes               String?
+}
+
+// Define the MedicalRecord model
+model MedicalRecord {
+  id             Int      @id @default(autoincrement())
+  patient        Patient  @relation(fields: [patientId], references: [id])
+  patientId      Int
+  doctor         Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId       Int
+  nurse          Nurse    @relation(fields: [nurseId], references: [id])
+  nurseId        Int
+  recordDateTime DateTime
+  source         String
+  diagnosis      String
+  treatment      String
+  prescription   String
+}
+
+// Define the Department model
+model Department {
+  id       Int        @id @default(autoincrement())
+  name     String
+  Doctor   Doctor[]
+  Nurse    Nurse[]
+  Employee Employee[]
+}
+
+// Define the Room model
+model Room {
+  id         Int       @id @default(autoincrement())
+  roomNumber String
+  capacity   Int
+  Patient    Patient[]
+  Bed        Bed[]
+}
+
+// Define the Bed model
+model Bed {
+  id         Int       @id @default(autoincrement())
+  room       Room      @relation(fields: [roomId], references: [id])
+  roomId     Int
+  bedNumber  Int
+  isOccupied Boolean
+  Patient    Patient[]
+}
+
+// Define the InventoryItem model
+model InventoryItem {
+  id             Int      @id @default(autoincrement())
+  itemName       String
+  quantity       Int
+  expirationDate DateTime
+  supplier       Supplier @relation(fields: [supplierId], references: [id])
+  supplierId     Int
+}
+
+// Define the Supplier model
+model Supplier {
+  id            Int             @id @default(autoincrement())
+  supplierName  String
+  contactNumber String
+  address       String
+  InventoryItem InventoryItem[]
+}
+
+// Define the Invoice model
+model Invoice {
+  id               Int       @id @default(autoincrement())
+  patient          Patient   @relation(fields: [patientId], references: [id])
+  patientId        Int
+  totalAmount      Float
+  paymentStatus    String
+  insuranceDetails String?
+  billingDate      DateTime
+  Payment          Payment[]
+}
+
+// Define the Payment model
+model Payment {
+  id            Int      @id @default(autoincrement())
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId     Int
+  paymentAmount Float
+  paymentDate   DateTime
+}
+
+// Define the LabTest model
+model LabTest {
+  id        Int      @id @default(autoincrement())
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  patientId Int
+  testType  String
+  testDate  DateTime
+  result    String
+}
+
+// Define the Surgery model
+model Surgery {
+  id            Int      @id @default(autoincrement())
+  patient       Patient  @relation(fields: [patientId], references: [id])
+  patientId     Int
+  surgeon       Doctor   @relation(fields: [surgeonId], references: [id])
+  surgeonId     Int
+  operatingRoom String
+  surgeryDate   DateTime
+  surgeryTime   DateTime
+}
+
+// Define the EmergencyVisit model
+model EmergencyVisit {
+  id            Int      @id @default(autoincrement())
+  patient       Patient  @relation(fields: [patientId], references: [id])
+  patientId     Int
+  arrivalTime   DateTime
+  priorityLevel String
+  treatment     String
+  disposition   String
+}
+
+// Define the Logs model
+model Logs {
+  id          Int      @id @default(autoincrement())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+  logDateTime DateTime
+  logType     String
+  logMessage  String
+}
+
+// Define the ForumPosts model
+model ForumPosts {
+  id           Int            @id @default(autoincrement())
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+  postDateTime DateTime
+  title        String
+  content      String
+  aiAnswer     String
+  ForumReplies ForumReplies[]
+}
+
+// Define the ForumReplies model
+model ForumReplies {
+  id            Int        @id @default(autoincrement())
+  post          ForumPosts @relation(fields: [postId], references: [id])
+  postId        Int
+  user          User       @relation(fields: [userId], references: [id])
+  userId        Int
+  replyDateTime DateTime
+  content       String
+}
+
+// Define the ChatRoom model
+model ChatRoom {
+  id              Int           @id @default(autoincrement())
+  roomName        String
+  createdDateTime DateTime
+  ChatMessage     ChatMessage[]
+}
+
+// Define the ChatMessage model
+model ChatMessage {
+  id              Int      @id @default(autoincrement())
+  room            ChatRoom @relation(fields: [roomId], references: [id])
+  roomId          Int
+  sender          User     @relation(fields: [senderId], references: [id])
+  senderId        Int
+  messageDateTime DateTime
+  messageContent  Json
+}
