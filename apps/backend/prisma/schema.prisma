@@ -13,6 +13,106 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  DOCTOR
+  NURSE
+  PATIENT
+  EMPLOYEE
+}
+
+// Define the Gender enum
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+// Define the AppointmentType enum
+enum AppointmentType {
+  ROUTINE_CHECKUP
+  CONSULTATION
+  SURGERY
+  EMERGENCY_VISIT
+  // Add more appointment types as needed
+}
+
+// Define the PriorityLevel enum
+enum PriorityLevel {
+  HIGH
+  MEDIUM
+  LOW
+  // Add more priority levels as needed
+}
+
+// Define the PaymentStatus enum
+enum PaymentStatus {
+  PAID
+  PENDING
+  OVERDUE
+  // Add more payment status options as needed
+}
+
+// Define the Disposition enum
+enum Disposition {
+  ADMITTED
+  DISCHARGED
+  REFERRED
+  // Add more disposition options as needed
+}
+
+// Define the TestType enum
+enum TestType {
+  BLOOD_TEST
+  URINE_TEST
+  X_RAY
+  MRI
+  // Add more test types as needed
+}
+
+// Define the SurgeryType enum
+enum SurgeryType {
+  APPENDECTOMY
+  KNEE_REPLACEMENT
+  HEART_BYPASS
+  // Add more surgery types as needed
+}
+
+// Define the LogType enum
+enum LogType {
+  LOGIN
+  ACCESS_DENIED
+  ERROR
+  INFORMATION
+  // Add more log types as needed
+}
+
+// Define the Role enum
+enum powerLevel {
+  ADMINISTRATOR
+  EMPLOYEE
+  DOCTOR
+  USER
+  // Add more roles as needed
+}
+
+// Define the BedStatus enum
+enum BedStatus {
+  OCCUPIED
+  AVAILABLE
+  RESERVED
+  OUT_OF_SERVICE
+  // Add more bed statuses as needed
+}
+
+// Define the ForumPostCategory enum
+enum ForumPostCategory {
+  GENERAL_DISCUSSION
+  MEDICAL_ADVICE
+  STAFF_ANNOUNCEMENTS
+  // Add more forum post categories as needed
+}
+
 // Define the User model
 model User {
   id            Int            @id @default(autoincrement())
@@ -22,9 +122,10 @@ model User {
   firstName     String
   lastName      String
   dateOfBirth   DateTime
-  gender        String
+  gender        Gender
   contactNumber String
-  userType      String // You might want to use an enum for UserType
+  userType      UserType // You might want to use an enum for UserType
+  powerLevel    powerLevel
   Doctor        Doctor[]
   Nurse         Nurse[]
   Patient       Patient[]
@@ -33,6 +134,8 @@ model User {
   ForumPosts    ForumPosts[]
   ForumReplies  ForumReplies[]
   ChatMessage   ChatMessage[]
+  authToken     String?   // Field for storing authentication token
+  lastLoginAt   DateTime? // Field for storing last login timestamp
 }
 
 // Define the Doctor model
@@ -104,7 +207,7 @@ model Appointment {
   doctor              Doctor   @relation(fields: [doctorId], references: [id])
   doctorId            Int
   appointmentDateTime DateTime
-  appointmentType     String
+  appointmentType     AppointmentType
   notes               String?
 }
 
@@ -148,7 +251,7 @@ model Bed {
   room       Room      @relation(fields: [roomId], references: [id])
   roomId     Int
   bedNumber  Int
-  isOccupied Boolean
+  bedStatus BedStatus
   Patient    Patient[]
 }
 
@@ -177,7 +280,7 @@ model Invoice {
   patient          Patient   @relation(fields: [patientId], references: [id])
   patientId        Int
   totalAmount      Float
-  paymentStatus    String
+  paymentStatus    PaymentStatus
   insuranceDetails String?
   billingDate      DateTime
   Payment          Payment[]
@@ -197,7 +300,7 @@ model LabTest {
   id        Int      @id @default(autoincrement())
   patient   Patient  @relation(fields: [patientId], references: [id])
   patientId Int
-  testType  String
+  testType  TestType
   testDate  DateTime
   result    String
 }
@@ -212,6 +315,8 @@ model Surgery {
   operatingRoom String
   surgeryDate   DateTime
   surgeryTime   DateTime
+  surgeryType   SurgeryType
+  notes String?
 }
 
 // Define the EmergencyVisit model
@@ -220,9 +325,9 @@ model EmergencyVisit {
   patient       Patient  @relation(fields: [patientId], references: [id])
   patientId     Int
   arrivalTime   DateTime
-  priorityLevel String
+  priorityLevel PriorityLevel
   treatment     String
-  disposition   String
+  disposition   Disposition
 }
 
 // Define the Logs model
@@ -231,7 +336,7 @@ model Logs {
   user        User?    @relation(fields: [userId], references: [id])
   userId      Int?
   logDateTime DateTime
-  logType     String
+  logType     LogType
   logMessage  String
 }
 
@@ -241,6 +346,7 @@ model ForumPosts {
   user         User           @relation(fields: [userId], references: [id])
   userId       Int
   postDateTime DateTime
+  postCategory ForumPostCategory
   title        String
   content      String
   aiAnswer     String
