@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 183 61% 7%;
-    --foreground: 184 50% 95%;
-    --card: 183 61% 7%;
-    --card-foreground: 184 50% 95%;
-    --popover: 183 61% 7%;
-    --popover-foreground: 184 50% 95%;
-    --primary: 182 70% 70%;
-    --primary-foreground: 183 61% 7%;
-    --secondary: 182 81% 33%;
-    --secondary-foreground: 183 61% 7%;
-    --muted: 183 61% 80%;
-    --muted-foreground: 184 50% 95%;
-    --accent: 182 91% 58%;
-    --accent-foreground: 183 61% 7%;
+    --background: 240 60% 1%;
+    --foreground: 246 76% 95%;
+    --card: 240 60% 1%;
+    --card-foreground: 246 76% 95%;
+    --popover: 240 60% 1%;
+    --popover-foreground: 246 76% 95%;
+    --primary: 243 68% 52%;
+    --primary-foreground: 246 76% 95%;
+    --secondary: 243 100% 7%;
+    --secondary-foreground: 246 76% 95%;
+    --muted: 240 61% 80%;
+    --muted-foreground: 246 76% 95%;
+    --accent: 242 100% 38%;
+    --accent-foreground: 246 76% 95%;
     --destructive: 0 62% 30%;
-    --destructive-foreground: 182 49% 10%;
-    --border: 183 61% 60%;
-    --input: 183 61% 80%;
-    --ring: 182 91% 60%;
+    --destructive-foreground: 246 76% 10%;
+    --border: 240 60% 60%;
+    --input: 240 61% 80%;
+    --ring: 242 100% 60%;
   }
 }
 
@@ -46,7 +46,7 @@
 
 @layer components {
   .root {
-    @apply flex w-screen h-screen bg-white items-center justify-center
+    @apply flex w-screen h-screen bg-background items-center justify-center
   }
   .wrapper {
     @apply w-full h-full bg-background
