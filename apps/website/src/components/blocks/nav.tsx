@@ -52,9 +52,9 @@ export default function Nav() {
                     <div class="mt-auto mb-auto ml-4">
                       <h1 class="text-2xl font-bold">Guest</h1>
                       <div class="flex h-5 items-center justify-center">
-                        <Button size="default" variant="link" class="p-0">Sign In</Button>
+                        <Button size="default" variant="link" class="p-0 font-bold">Sign In</Button>
                         <Separator orientation="vertical" class="h-full ml-2 mr-2"/>
-                        <Button size="default" variant="link" class="p-0">Create Account</Button>
+                        <Button size="default" variant="link" class="p-0 font-bold">Create Account</Button>
                       </div>
                     </div>
                   </div>
