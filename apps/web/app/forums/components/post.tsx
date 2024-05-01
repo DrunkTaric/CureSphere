@@ -15,7 +15,7 @@ export default function Post(props: PostInterface) {
       <section className="w-full h-[60%] p-2">
         <Label>{props.post.text}</Label>
       </section>
-      <section className="flex w-full h-[16%]">
+      <section className="flex w-full h-[15%]">
         <Label className="mr-0 ml-auto text-gray-400 text-opacity-50">2014/12/1 01:30PM</Label>
       </section>
     </div>
