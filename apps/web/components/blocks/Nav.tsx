@@ -12,7 +12,7 @@ export default function Nav() {
         <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/">Home</Link>
         <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/about">About</Link>
         <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/futures">Futures</Link>
-        <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/contact">Contact</Link>
+        <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/contacts">Contact</Link>
         <Link className="m-auto w-fit text-2xl font-medium hover:text-white hover:cursor-pointer transition-all" href="/forums">Forums</Link>
       </div>
 
