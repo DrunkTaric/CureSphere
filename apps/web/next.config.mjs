@@ -5,6 +5,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "static8.depositphotos.com"
+      },
+      {
+        protocol: "https",
+        hostname: "media.wired.com"
       }
     ]
   }
