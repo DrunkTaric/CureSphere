@@ -15,10 +15,10 @@ export default function Home() {
         </div>
       </div>
       <div className="w-[45rem] h-[35rem] grid grid-cols-3 grid-rows-2 gap-5">
-        <AnimatedDiv delay={0} type="fade" className="w-full bg-red-400 rounded-2xl" />
-        <AnimatedDiv delay={0.3} type="fade" className="w-full bg-blue-400 rounded-2xl" />
-        <AnimatedDiv delay={0.6} type="fade" className="w-full row-span-2 bg-green-400 rounded-2xl" />
-        <AnimatedDiv delay={0.9} type="fade" className="w-full col-span-2 bg-yellow-400 rounded-2xl" />
+        <AnimatedDiv custom={false} duration={0.5} delay={0} preset="fadein" className="w-full bg-red-400 rounded-2xl" />
+        <AnimatedDiv custom={false} duration={0.5} delay={0.3} preset="fadein" className="w-full bg-blue-400 rounded-2xl" />
+        <AnimatedDiv custom={false} duration={0.5} delay={0.6} preset="fadein" className="w-full row-span-2 bg-green-400 rounded-2xl" />
+        <AnimatedDiv custom={false} duration={0.5} delay={0.9} preset="fadein" className="w-full col-span-2 bg-yellow-400 rounded-2xl" />
       </div>
     </main>
   );
