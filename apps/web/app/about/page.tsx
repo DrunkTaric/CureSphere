@@ -28,7 +28,7 @@ export default function About() {
         </section>
       </section>
 
-      <section className="flex space-x-24 mt-14">
+      <section className="flex h-[11rem] space-x-24 mt-14">
         <Counter text={"Happy Patient"} count={22000000} icon={<IoHappy className="w-full h-full" />} />
         <Counter text={"Surgeries"} count={120000} icon={<FaHeartbeat className="w-full h-full" />} />
         <Counter text={"Endoscopy"} count={1450000} icon={<RiMicroscopeFill className="w-full h-full" />} />
