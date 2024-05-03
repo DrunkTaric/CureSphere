@@ -335,12 +335,14 @@ model User {
   id            Int            @id @default(autoincrement())
   salt          String
   email         String         @unique
+  civilID       String         @unique
   passwordHash  String
   firstName     String
   lastName      String
   dateOfBirth   DateTime
   gender        Gender
   contactNumber String
+  deleted       Boolean        @default(false) 
   userType      UserType // You might want to use an enum for UserType
   powerLevel    powerLevel
   Doctor        Doctor[]
@@ -423,6 +425,7 @@ model Appointment {
   patientId           Int
   doctor              Doctor   @relation(fields: [doctorId], references: [id])
   doctorId            Int
+  presenceDateTime    DateTime
   appointmentDateTime DateTime
   appointmentType     AppointmentType
   notes               String?
@@ -448,6 +451,7 @@ model MedicalRecord {
 model Department {
   id       Int        @id @default(autoincrement())
   name     String
+  image    String
   Doctor   Doctor[]
   Nurse    Nurse[]
   Employee Employee[]
@@ -567,6 +571,9 @@ model ForumPosts {
   title        String
   content      String
   aiAnswer     String
+  createdAt    DateTime
+  updatedAt    DateTime
+  deleted      Boolean        @default(false)
   ForumReplies ForumReplies[]
 }
 
@@ -596,6 +603,6 @@ model ChatMessage {
   roomId          Int
   sender          User     @relation(fields: [senderId], references: [id])
   senderId        Int
+  content         String
   messageDateTime DateTime
-  messageContent  Json
 }
