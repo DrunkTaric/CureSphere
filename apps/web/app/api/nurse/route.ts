@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/providers/prisma';
+import prisma from '@/services/prisma';
 import { extractParams } from '@/utils/requester';
 import { Nurse, User } from '@prisma/client';
 import { CreateRequest, GetRequest, UpdateRequest, DeleteRequest } from '@/interfaces';
