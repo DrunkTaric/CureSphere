@@ -13,7 +13,7 @@ const routes = [
 
 export default function Nav() {
   return (
-    <div className="p-3 grid grid-cols-5 lg:grid-cols-9 w-full">
+    <div className="absolute p-3 grid grid-cols-5 lg:grid-cols-9 w-full">
       <div className="xl:col-start-2 ml-auto mr-auto">
         <a className="text-3xl font-bold">Logo</a>
       </div>
