@@ -10,8 +10,6 @@ const text3 = "Contrary to popular belief, Lorem Ipsum is not simply random text
 
 export default async function Forums() {
 
-  /*const somthing = await (new Promise((res, rej) => { setTimeout(() => { res() }, 30000) }))*/
-
   return (
     <main className="flex h-screen w-full items-center justify-center p-24 pb-12">
       <section className="w-[45rem] h-full rounded-2xl">
